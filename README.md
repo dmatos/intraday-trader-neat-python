@@ -1,46 +1,34 @@
-# StockTradingWithNeatAlgorithm
- Stock trading based on MACD indicator using NEAT and naive algorithm
+# Dados para testes na NEAT
 
-## Sections
+## Contexto e definições
 
- - [Description](#description)
-	 - [General](#general)
-	 - [MACD description](#MACD-description)
-	 - [Data Preparation](#data-preparation)
-	 - [Main features](#main-features)
-	 - [NEAT vs naive algorithm](#NEAT-vs-naive-algorithm)
- - [Usage](#usage)
- - [Links](#links)
+### NEAT
+- testes iniciais serão realizados com os valores default do sistema
 
+### Contexto de dados para testes:
 
-## Description
+* histórico de ações de um único ticker para treinamento e teste de performance sobre o dados de uma semana deste ticker [1->1]
+* histórico de ações de todos os tickers para treinamento e teste de performance sobre uma semana de negócios do ticker no item anterior [n->1]
+* histórico de ações de todos os ticker para treinamento e teste de performance sobre uma semana de negócios de todos os tickers [n->n]
 
-### General
-In this project, NEAT algorithm is used for stocks trading. It makes use of MACD indicator to decide whether to buy or sell stocks. Implemented bookmaker has a starting capital of 1000 USD and it tries its hand in trading stocks of S&P 500 stock data (link to a dataset is below). Because of the fact that NEAT algorithm tries to make intelligent decisions, I have also decided to implement naive algorithm (which is also using MACD to making decisions) in order to have some reference point.
+### Dados que serão utilizados para treinamento na NEAT:
 
-### MACD description
-Moving Average Convergence Divergence (MACD) is a trend-following momentum indicator, which is considered the most simple and effective one. It is mainly used in technical analysis of stock prices. It shows the relationship between two exponential moving averages and consists of two charts: MACD and SIGNAL.
+- macd e sinal
+- velas* de 3 minutos
+- velas* de 5 minutos
 
-MACD can be interpreted in many ways. One of them (which is exploited in this project) says that there is going to be a downward trend, when MACD line crosses SIGNAL line from the top, and that there is going to be an upward trend when SINGAL line is corssed from the bottom by MACD line.
+*velas**: as velas devem ser criadas para cada minuto, diferente das velas consolidadas que exibimos no front.
+Ou seja, uma única vela passará por 5 minutos sendo utilizada, porém com valores atualizados a cada tick.
+Nesse caso a vela não terá toda a janela, mas talvez seja possível para a NEAT apostar dentro da vela.
 
-Like any forecasting algorithm, MACD is not perfect, because it can generate false signals. However, it is very useful, especially with long-term investments.
+### Dados de validação:
 
+- preço do ativo no minuto em que se decide comprar/vender
 
-### Data Preparation
-Data used in this project comes from kaggle S&P 500 stock data (link is below). To train agent, I had to calculate MACD and SIGNAL values for each chart. Then I divided data set into train and test set in 90 to 10 ratio.
-
-
-### Main features
-  - using NEAT algorithm to trade stocks
-  - using naive algorithm to trade stocks
-  - MACD and SIGNAL
-  - S&P 500 stock data
-
-### NEAT vs naive algorithm
-![comparison](images/comparison_chart_1.png "Comparison")
-
-## Usage
- - University Project
-
-## Links
- - https://www.kaggle.com/camnugent/sandp500 (S&P 500 stock data)
+# #TODO
+* Testar o primeiro cenário com BBAS3
+* Controller para baixar o csv dos dados (macd+sinal e velas) dentro de um range de datas para um ticker qualquer pelo id do ticker
+* A primeira coluna do CSV deve ser o timestamp
+* O nome do arquivo deve ser tickerCode-dataInicio-to-dataFim.csv
+* O front deve entregar o arquivo assincronamente como é feito na Unidocs
+* Adaptar o código deste projeto para tudo o que foi descrito acima
