@@ -1,9 +1,11 @@
-import pandas as pd
-import neat
+import math
 import os
 import pickle
+
+import neat
+import pandas as pd
+
 import constants
-import math
 from bookmaker import Bookmaker
 
 input = []
@@ -85,7 +87,9 @@ def load_input_for_training(stock_data_path, training_data_path):
             input.append((macd, signal, data_set))
 
 
+# TODO also create a load_candlestick method
 def load_macd(path):
+    # TODO macd and signal are two values that lie in the same line of the CSV
     with open(path + '_macd', 'rb') as fp:
         macd = pickle.load(fp)
     with open(path + '_signal', 'rb') as fp:
